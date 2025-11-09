@@ -1,9 +1,22 @@
 <?php
 
+/*About this code...
+  Basic: This code is global for browser-from signup requests.
+         Code uses "mySQL" using "PHP" for logic. 
+  Usage: This code doesn't change for any platform if "PHP" development options are met.
+  Structure: This code uses two helper functions, "accountExists" and "createAccount". 
+             1. "accountExists" fedges info to check if an user account exist in the "mySQL" database assigned for the platform.
+             2. "creatAccount" is used when "accountExists" returns null and a new user has to be registered in the database.
+  Future development options: can be (1)Implementing proper hashing or encryption-decryption methods (according to company "terms and usage"
+                                        and "policy and agreement" papers) 
+*/
+
+
+#SEGMENT ONE {}
 require_once("../con.php");
 require_once("../base.php");
 
-
+#SEGMENT TWO {}
 $inputData = getDataFromJsonObj();
 
 if ($inputData == null) return;
@@ -23,13 +36,8 @@ if (accountExists($email, $conn, $tableName)){
 
 createAccount($email, $password, $name, $username, $tableName, $conn);
 
-
-
-
-
-
-
-
+#SEGMENT THREE {}
+#function accountExists implementation
 function accountExists($email, $conn, $tableName){
     $query = "SELECT * FROM {$tableName} WHERE email = '$email'";
     $runQuery = mysqli_query($conn, $query);
@@ -39,6 +47,7 @@ function accountExists($email, $conn, $tableName){
 
 }
 
+#function createAccount implementation
 function createAccount($email, $password, $name, $username, $tableName, $conn){
 $sql = "INSERT INTO {$tableName} (email, password, name, username) VALUES ('$email', '$password', '$name', '$username')";
     $runSql = mysqli_query($conn, $sql);
@@ -51,10 +60,5 @@ $sql = "INSERT INTO {$tableName} (email, password, name, username) VALUES ('$ema
 
     }
 }
-
-
-
-
-
 
 ?>
